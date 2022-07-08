@@ -6,9 +6,7 @@
 // level messaging abilities.
 // It is designed to work with the other example rf95_client
 // Tested with Anarduino MiniWirelessLoRa
-#include "DHT.h"
-#define DHTPIN 5     // what digital pin we're connected to
-#define DHTTYPE DHT11   // DHT 11
+
 #include <SPI.h>
 #include <RH_RF95.h>
 
