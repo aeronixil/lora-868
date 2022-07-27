@@ -122,6 +122,7 @@ void uplink_to_mesh(String str)
 void uplink_mqtt_publish(String topic, String message)
 {
   //client.publish(topic,message);
+  //uncomment this
 }
 void loop() {
   if (!client.connected()) {
