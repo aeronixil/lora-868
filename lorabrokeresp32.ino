@@ -1,5 +1,6 @@
 
 
+
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <DNSServer.h>
@@ -22,6 +23,7 @@ PubSubClient client(espClient);
 long lastMsg = 0;
 char msg[50];
 int value = 0;
+String str;
 
 
 
@@ -29,7 +31,7 @@ int value = 0;
 const int ledPin = 4;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
   Serial.println("Serial Txd is on pin: "+String(TX));
   Serial.println("Serial Rxd is on pin: "+String(RX));
@@ -49,6 +51,7 @@ void setup() {
 void setup_wifi() {
 
 //  WiFi.mode(WIFI.STA);
+  WiFi.disconnect(true);
   WiFiManager wifiManager;
   wifiManager.autoConnect("AutoConnectAP");
   Serial.println("uplink sucsessful");
@@ -114,10 +117,7 @@ void reconnect() {
   }
 }
 //use this function to send messages to the mesh network
-void uplink_to_mesh(String str)
-{
-  Serial.println(str);
-}
+
 // use this function to send messages to the mqtt network
 void uplink_mqtt_publish(String topic, String message)
 {
@@ -133,8 +133,15 @@ void loop() {
   long now = millis();
   if (now - lastMsg > 5000) {
     lastMsg = now;
+  if(Serial.available())
+  {
+    str = Serial.readString();
+    client.publish("batman",str.c_str());
+    Serial.println("published data");
+  }
 
-   // uplink_mqtt_publish("satece/s1", "1");
+  
+   
     
   }
 }
